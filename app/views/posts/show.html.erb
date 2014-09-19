@@ -1,8 +1,8 @@
+<p>
+	<%= render post.categories %>
+</p>
+<%= render 'shared/content_title', title: @post.title%>
 
-<p> You are viewing the post url and title </p>
-
-	Title: <%= @post.title %><br />
-	URL: <%= @post.url %><br />
-	Description: <%= @post.description %><br />
-	<br/>
-
+<p>
+	<%= @post.description %><br>
+</p>
