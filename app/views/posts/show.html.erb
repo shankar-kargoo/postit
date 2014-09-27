@@ -1,8 +1,32 @@
 <%= render 'shared/content_title', title: @post.title%>
+
 <p class='pull-right'>
 	<%=link_to 'Edit this post', edit_post_path(@post) %> 
 </p>
+
 <p>
 	<%= render @post.categories %>
 </p>
+<br>
+<%= form_for [@post, @comment] do |f| %>
+	<%= render 'shared/errors', obj: @comment %>
+	<div class='control-group'>
+		<%= f.label :comment, 'leave a comment' %>
+		<%= f.text_area :comment, row: 3, class: 'span5' %>
+	</div>
+	<%= f.submit "Create Comment", class: "btn btn-primary" %> 
+<% end %>
 
+
+<h5>Comments:</h5>
+
+<% @post.comments.each do |f| %>
+	<div class="well span8">
+		<em>"<%= f.comment %>"</em>
+		<br>
+		<small>
+			Created on <em>"<%= f.created_at %>"</em>
+			by <em>"<%=link_to f.creator.username, '' %>"</em>
+		</small>		
+	</div>
+<% end %>

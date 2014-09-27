@@ -7,7 +7,8 @@ before_action :set_post, only: [:show, :edit, :update]
   end
 
   def show
-  #  @post = Post.find(params[:id]) refer before actions
+    #  @post = Post.find(params[:id]) refer before actions
+    @comment = Comment.new
   end
   
   def new
@@ -48,7 +49,7 @@ def post_params
 end
 
 def set_post
-  @post = @post = Post.find(params[:id])
+  @post = Post.find(params[:id])
 end
 
 

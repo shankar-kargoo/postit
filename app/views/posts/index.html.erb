@@ -1,5 +1,13 @@
 <%= render 'shared/content_title', title: 'All Posts'%>
 
+<%= form_tag("/posts/3", method: "get") do %>
+  <%= label_tag(:person, "Enter email id:") %>
+  <%= text_field_tag(:person) %>
+  <%= label_tag(:password, "Enter password:") %>
+  <%= text_field_tag(:password) %>
+  <%= submit_tag("Sign Up") %>
+<% end %>
+
 <% @posts.each do |post| %>
 	<%= render "post", post: post %>
 <% end %>
