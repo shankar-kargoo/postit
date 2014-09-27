@@ -16,6 +16,7 @@ before_action :set_post, only: [:show, :edit, :update]
   end
 
   def create
+
     @post = Post.new(post_params)
     @post.creator = User.first # TODO: Change once we add authenticationand know who the user is.
     if @post.save
@@ -32,6 +33,7 @@ before_action :set_post, only: [:show, :edit, :update]
   end
 
   def update
+
   #  @post = Post.find(params[:id]) refer before actions
     if @post.update(post_params)
       flash[:notice] = "Your Post has been updated."
@@ -45,12 +47,11 @@ before_action :set_post, only: [:show, :edit, :update]
 private
 
 def post_params
-   params.require(:post).permit!
+   params.require(:post).permit(:url, :title, :description, category_ids: [])
 end
 
 def set_post
   @post = Post.find(params[:id])
 end
-
 
 end

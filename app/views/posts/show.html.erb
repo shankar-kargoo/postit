@@ -25,7 +25,7 @@
 		<em>"<%= f.comment %>"</em>
 		<br>
 		<small>
-			Created on <em>"<%= f.created_at %>"</em>
+			Created on <em>"<%= display_datetime(f.created_at) %>"</em>
 			by <em>"<%=link_to f.creator.username, '' %>"</em>
 		</small>		
 	</div>
