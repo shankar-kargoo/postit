@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
 
 before_action :set_post, only: [:show, :edit, :update]
+before_action :require_user, except: [:index, :show]
 
   def index
   	@posts = Post.all
@@ -18,7 +19,7 @@ before_action :set_post, only: [:show, :edit, :update]
   def create
 
     @post = Post.new(post_params)
-    @post.creator = User.first # TODO: Change once we add authenticationand know who the user is.
+    @post.creator = current_user #User.first # TODO: Change once we add authenticationand know who the user is.
     if @post.save
       flash[:notice] = "Your post was created."
       redirect_to posts_path
