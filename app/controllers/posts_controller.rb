@@ -1,12 +1,12 @@
 class PostsController < ApplicationController
 
-  before_action :set_post, only: [:show, :edit, :update]
-  before_action :require_user, except: [:index, :show]
-  before_action :whose_post, only: [:edit, :update]
+  before_action :set_post, only: [:show, :edit, :update, :vote]
+  before_action :require_user, except: [:index, :show ]
+  before_action :set_user, only: [:edit, :update, :vote]
   before_action :require_same_user, only: [:edit, :update]
 
   def index
-  	@posts = Post.all
+  	@posts = Post.all.sort_by{|x| x.total_votes}.reverse
   end
 
   def show
@@ -46,6 +46,19 @@ class PostsController < ApplicationController
     end
   end
 
+  def vote
+    vote = Vote.create(vote: params[:vote], creator: current_user, voteable: @post)
+    
+    if vote.valid?
+      flash[:notice] = 'Your vote was counted'
+      redirect_to :back
+    else
+      flash[:error] = 'Your can only vote on this post once'
+      redirect_to :back
+    end
+  end
+
+
   private
 
   def post_params
@@ -56,15 +69,15 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
   end
 
+  def set_user
+    @user = @post.creator 
+  end
+
   def require_same_user
     if current_user != @user
       flash[:error] = "You are not allowed to perform this action!"
       redirect_to root_path
     end
   end
-  def whose_post
-    @user = @post.creator 
-  end
-
 
 end

@@ -1,5 +1,5 @@
 class CommentsController < ApplicationController
-  
+
   before_action :require_user
 
   def create
@@ -14,5 +14,18 @@ class CommentsController < ApplicationController
 		else
 			render 'posts/show'
 		end
+  end
+
+  def vote
+    comment = Comment.find(params[:id])
+    vote = Vote.create(vote: params[:vote], creator: current_user, voteable: comment)
+    if vote.valid?
+      flash[:notice] = 'Your vote was counted'
+      redirect_to :back
+    else
+      flash[:error] = 'Your can only vote on this comment once'
+      redirect_to :back
+    end
+
   end
 end
