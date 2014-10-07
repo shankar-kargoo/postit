@@ -30,4 +30,3 @@
 heroku url: http://postit-shankar.herokuapp.com/
 ActiveRecord::DuplicateMigrationVersionError: Multiple migrations have the version number 20140912180423
 ==
-
