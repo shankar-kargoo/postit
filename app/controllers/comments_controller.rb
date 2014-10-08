@@ -3,7 +3,7 @@ class CommentsController < ApplicationController
   before_action :require_user
 
   def create
-  	@post = Post.find(params[:post_id])
+  	@post = Post.find_by(slug: params[:post_id])
     @comment = Comment.new(params.require(:comment).permit(:comment))
     @comment.post = @post
     @comment.creator = current_user #User.find(1) # TODO to be fixed later after we implement authentication.
@@ -17,15 +17,19 @@ class CommentsController < ApplicationController
   end
 
   def vote
-    comment = Comment.find(params[:id])
-    vote = Vote.create(vote: params[:vote], creator: current_user, voteable: comment)
-    if vote.valid?
-      flash[:notice] = 'Your vote was counted'
-      redirect_to :back
-    else
-      flash[:error] = 'Your can only vote on this comment once'
-      redirect_to :back
-    end
-
+    @comment = Comment.find(params[:id])
+    @vote = Vote.create(vote: params[:vote], creator: current_user, voteable: @comment)
+    respond_to do |format|
+      format.html {
+        if @vote.valid?
+          flash[:notice] = 'Your vote was counted'
+          redirect_to :back
+        else
+          flash[:error] = 'Your can only vote on this comment once'
+          redirect_to :back
+        end
+        }
+       format.js
+     end
   end
 end

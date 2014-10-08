@@ -19,5 +19,13 @@ class ApplicationController < ActionController::Base
       redirect_to :back
     end
   end
+  
+  def require_admin
+    access_denied unless logged_in? and current_user.admin?
+  end
 
+  def access_denied
+   flash[:error] = "only admin can perform this action"
+   redirect_to :back
+  end
 end
