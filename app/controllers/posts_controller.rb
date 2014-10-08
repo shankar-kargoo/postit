@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
-
+  
+  
   before_action :set_post, only: [:show, :edit, :update, :vote]
   before_action :require_user, except: [:index, :show ]
   before_action :set_user, only: [:edit, :update, :vote]
