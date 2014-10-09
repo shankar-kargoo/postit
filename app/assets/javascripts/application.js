@@ -15,14 +15,3 @@
 //= require turbolinks
 //= require_tree .
 //= require bootstrap
-
-$(document).ready(function(){
-	$('#this_form input').click(function(){ //1.unobstrusive javascript event listner
-		$.ajax({ // 2.Triger ajax request
-			type: 'POST'
-			url:'/player/hit',
-		}).done(function(msg){ //3. Handle the response
-			$('#some_element').html(msg);
-		})
-	});
-});
