@@ -5,7 +5,10 @@ PostitTemplate::Application.routes.draw do
   get   '/login',     to: 'sessions#new'
   post  '/login',     to: 'sessions#create'
   get   '/logout',    to: 'sessions#destroy'
-
+  get   '/users',     to: 'users#index'
+  get   '/pin',       to: 'sessions#pin'
+  post  '/pin',       to: 'sessions#pin'
+  
 
   resources :posts, except: [:destroy] do
     member do 
