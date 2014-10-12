@@ -26,7 +26,6 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user = User.new(user_params) # refer mass assignment below
     if @user.update(user_params)
       flash[:notice] = "Your Profile was updated."
       redirect_to posts_path
