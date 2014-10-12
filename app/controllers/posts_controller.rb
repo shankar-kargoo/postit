@@ -1,10 +1,9 @@
 class PostsController < ApplicationController
   
-  
   before_action :set_post, only: [:show, :edit, :update, :vote]
   before_action :require_user, except: [:index, :show ]
-  before_action :set_user, only: [:edit, :update, :vote]
-  before_action :require_same_user, only: [:edit, :update]
+  before_action :require_creator, only: [:edit, :update]
+
 
   def index
   	@posts = Post.all.sort_by{|x| x.total_votes}.reverse
@@ -42,7 +41,7 @@ class PostsController < ApplicationController
   end
   
   def edit
-  #  @post = Post.find(params[:id]) refer before actions
+
   end
 
   def update
@@ -58,8 +57,9 @@ class PostsController < ApplicationController
   end
 
   def vote
+
     @vote = Vote.create(vote: params[:vote], creator: current_user, voteable: @post)
-    
+
     respond_to do |format|
       format.html {
         if @vote.valid?
@@ -85,15 +85,23 @@ class PostsController < ApplicationController
     @post = Post.find_by(slug: params[:id])
   end
 
-  def set_user
-    @user = @post.creator 
-  end
-
-  def require_same_user
-    if current_user != @user
-      flash[:error] = "You are not allowed to perform this action!"
-      redirect_to root_path
-    end
+  def require_creator
+    access_denied unless logged_in? and (current_user == @post.creator || current_user.admin?)
   end
 
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -58,10 +58,13 @@
       <% if logged_in? %>
         <li class='divider'></li>
         <li>
-          <%= link_to(new_category_path) do %>
-            <i class="icon-plus"></i>"
-            New Category
+          <% if logged_in? & current_user.admin? %>
+            <%= link_to(new_category_path) do %>
+              <i class="icon-plus"></i>"
+              New Category
+            <% end %>
           <% end %>
+
         </li>
       <% end %>  
   </ul>
